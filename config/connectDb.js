@@ -6,7 +6,16 @@ const mongoose = require("mongoose");
 // kitty.save().then(() => console.log('meow'));
 
 const connectDb = async () => {
-  await mongoose.connect(process.env.DB_HOST);
+  try {
+    const db = await mongoose.connect(process.env.DB_HOST);
+    console.log(
+      `mongoDB is connected. Name: ${db.connection.name}. Port: ${db.connection.port}. Host: ${db.connection.host}`
+        .green.bold.italic
+    );
+  } catch (error) {
+    console.log(error.message.red.bold);
+    process.exit(1)
+  }
 };
 
 module.exports = connectDb;
